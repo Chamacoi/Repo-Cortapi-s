@@ -2,7 +2,8 @@
 
 **AI-Proof Text Encryption & Protection System**
 
-Cortapis es un sistema de seguridad que protege contenido sensible de la indexación de IA mediante el uso de marcadores @ en formato Markdown, ofuscación de texto y encriptación.
+Cortapis es un sistema de seguridad que protege contenido sensible de la indexación de IA mediante el uso de marcadores @ en formato Markdown, ofuscación de texto y encriptación.    
+Siempre puedes empezar por el tutorial "Tutorial Cortapi-s.txt" en esta misma Repo.
 
 ## 🎯 Objetivo
 
