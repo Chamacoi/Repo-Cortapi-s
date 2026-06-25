@@ -199,17 +199,21 @@ npm install crypto-js
 ## 📄 Licencia
 
 Cortapis - Sistema de Seguridad para Protección contra Indexación de IA
+Apache 2.0  http://www.apache.org/licenses/
 
-MIT License - Libre de usar, modificar y distribuir
-
-📊 API Endpoints
+## API Endpoints
 POST- Encriptar contenido
 ```/api/encrypt``` 
-POST- Desencriptar (abre call window) ```/api/decrypt``` 
-POST- Marcar tokens ```/api/mark-sensitive``` 
-POST- Ofuscar texto ```/api/obfuscate``` 
-GET- Listar sesiones ```/api/sessions``` 
-DELETE- Limpiar sesión ```/api/clear-session``` 
+POST- Desencriptar (abre call window) 
+```/api/decrypt``` 
+POST- Marcar tokens 
+```/api/mark-sensitive``` 
+POST- Ofuscar texto 
+```/api/obfuscate``` 
+GET- Listar sesiones 
+```/api/sessions``` 
+DELETE- Limpiar sesión
+```/api/clear-session``` 
 
 ## 🤝 Contribuciones
 
