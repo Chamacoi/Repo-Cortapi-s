@@ -1,0 +1,23 @@
+{
+  "name": "cortapis-security-app",
+  "version": "1.0.0",
+  "description": "AI-Proof Text Encryption & Protection System with @ marker obfuscation",
+  "main": "cortapis_app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "python cortapis_app.py"
+  },
+  "keywords": [
+    "encryption",
+    "privacy",
+    "security",
+    "AI-proof",
+    "anti-indexing",
+    "cortapis"
+  ],
+  "author": "Chamacoi",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
