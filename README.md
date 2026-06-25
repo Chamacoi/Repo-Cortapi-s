@@ -202,6 +202,15 @@ Cortapis - Sistema de Seguridad para Protección contra Indexación de IA
 
 MIT License - Libre de usar, modificar y distribuir
 
+📊 API Endpoints
+POST- Encriptar contenido
+```/api/encrypt``` 
+POST- Desencriptar (abre call window) ```/api/decrypt``` 
+POST- Marcar tokens ```/api/mark-sensitive``` 
+POST- Ofuscar texto ```/api/obfuscate``` 
+GET- Listar sesiones ```/api/sessions``` 
+DELETE- Limpiar sesión ```/api/clear-session``` 
+
 ## 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
