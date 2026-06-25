@@ -2,7 +2,8 @@
 
 **AI-Proof Text Encryption & Protection System**
 
-Cortapis es un sistema de seguridad que protege contenido sensible de la indexación de IA mediante el uso de marcadores @ en formato Markdown, ofuscación de texto y encriptación.
+Cortapis es un sistema de seguridad que protege contenido sensible de la indexación de IA mediante el uso de marcadores @ en formato Markdown, ofuscación de texto y encriptación.    
+Siempre puedes empezar por el tutorial "Tutorial Cortapi-s.txt" en esta misma Repo.
 
 ## 🎯 Objetivo
 
@@ -199,8 +200,21 @@ npm install crypto-js
 ## 📄 Licencia
 
 Cortapis - Sistema de Seguridad para Protección contra Indexación de IA
+Apache 2.0  http://www.apache.org/licenses/
 
-MIT License - Libre de usar, modificar y distribuir
+## API Endpoints
+POST- Encriptar contenido
+```/api/encrypt``` 
+POST- Desencriptar (abre call window) 
+```/api/decrypt``` 
+POST- Marcar tokens 
+```/api/mark-sensitive``` 
+POST- Ofuscar texto 
+```/api/obfuscate``` 
+GET- Listar sesiones 
+```/api/sessions``` 
+DELETE- Limpiar sesión
+```/api/clear-session``` 
 
 ## 🤝 Contribuciones
 
