@@ -1,0 +1,201 @@
+CORTAPIS-S - TUTORIAL Y COMANDOS BÁSICOS
+
+Este archivo contiene los comandos básicos para instalar, configurar, ejecutar y usar la aplicación Cortapis (Repo-Cortapi-s). Está pensado como un tutorial rápido en texto plano.
+
+---
+
+1) CLONAR EL REPOSITORIO
+
+# Clonar y moverse a la rama hardened (opcional)
+git clone https://github.com/Chamacoi/Repo-Cortapi-s.git
+cd Repo-Cortapi-s
+# Cambiar a la rama donde está la app
+git checkout cortapis-security-app
+
+---
+
+2) ENTORNO VIRTUAL E INSTALACIÓN (DESARROLLO)
+
+# Crear y activar virtualenv (Linux/macOS)
+python -m venv venv
+source venv/bin/activate
+
+# En Windows (PowerShell)
+# python -m venv venv
+# venv\Scripts\Activate.ps1
+
+# Instalar dependencias básicas (interfaz original)
+pip install -r requirements.txt
+
+# O instalar dependencias hardened (recomendado)
+pip install -r requirements_hardened.txt
+
+---
+
+3) GENERAR CLAVE DE ENCRIPTACIÓN FERNET
+
+# Ejecutar comando para generar clave segura
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+
+# Copia el valor que aparece: será algo como
+# gAAAAAB... (clave segura en base64)
+
+---
+
+4) CREAR .env (CONFIGURACIÓN)
+
+# Copiar plantilla
+cp .env.example .env
+
+# Edita .env y pega la clave generada en CORTAPIS_ENCRYPTION_KEY
+# Asegúrate de configurar CORTAPIS_API_KEYS con al menos una clave API
+
+# Ejemplo: (en .env)
+# CORTAPIS_ENCRYPTION_KEY=tu_clave_generada
+# CORTAPIS_API_KEYS=mi_api_key_12345
+
+---
+
+5) EJECUTAR LA APLICACIÓN EN DESARROLLO (HARDENED)
+
+# Desde la raíz del repo
+cd cortapis_security
+python web_interface_hardened.py
+
+# Abre en el navegador (si no forcea HTTPS en desarrollo):
+# http://localhost:5000/
+
+---
+
+6) EJECUTAR EN PRODUCCIÓN (GUNICORN + SSL)
+
+# Generar certificados (desarrollo / prueba)
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+
+# Ejecutar gunicorn (ejemplo básico)
+gunicorn --certfile=cert.pem --keyfile=key.pem \
+  --bind 0.0.0.0:5000 \
+  --workers 4 \
+  web_interface_hardened:app
+
+# O seguir DEPLOYMENT_GUIDE.md para Nginx + systemd
+
+---
+
+7) COMANDOS BÁSICOS DE USO (API)
+
+# Nota: sustituye `your_api_key` por una clave definida en .env
+
+# ENCRIPTAR TEXTO
+curl -X POST https://localhost:5000/api/encrypt \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"text": "Contact admin@example.com for access"}'
+
+# RESPUESTA: JSON con session_id y encrypted_content
+
+# DESENCRIPTAR (READ MODE)
+curl -X POST https://localhost:5000/api/decrypt \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"session_id": "SESSION_ID_OBTENIDO"}'
+
+# MARCAR TOKENS SENSIBLES (sin encriptar)
+curl -X POST https://localhost:5000/api/mark-sensitive \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"text": "Contact admin@example.com"}'
+
+# OFUSCAR TEXTO
+curl -X POST https://localhost:5000/api/obfuscate \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"text": "This is secret text"}'
+
+# EXPORTAR A MARKDOWN (descargable)
+curl -X POST https://localhost:5000/api/export-markdown \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"session_id": "SESSION_ID_OBTENIDO", "original_text": "Texto original"}'
+
+# LISTAR SESSIONS ACTIVAS
+curl -X GET https://localhost:5000/api/sessions \
+  -H "X-API-Key: your_api_key"
+
+# BORRAR UNA SESIÓN
+curl -X DELETE https://localhost:5000/api/clear-session \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"session_id": "SESSION_ID_OBTENIDO"}'
+
+---
+
+8) USAR LA INTERFAZ WEB (LOCAL)
+
+# Abre http://localhost:5000
+# En la interfaz "Write Mode" pega el texto y pulsa "Encrypt & Protect"
+# Copia el Session ID resultante y pégalo en "Read Mode" -> "Open Call Window"
+
+---
+
+9) EJECUTAR LOS EJEMPLOS EN PYTHON
+
+# Desde la raíz del repo (o activar virtualenv y ejecutar):
+python example_usage.py
+
+# Esto ejecuta ejemplos básicos y demostraciones del motor
+
+---
+
+10) GESTIÓN DE CLAVES Y SEGURIDAD
+
+# Regenerar clave Fernet (si la pierdes reemplaza y re-encripta datos)
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+
+# No compartas CORTAPIS_ENCRYPTION_KEY ni .env en repositorios públicos
+# Mantén CORTAPIS_API_KEYS en un secreto seguro
+
+---
+
+11) LOGS Y DEPURACIÓN
+
+# Logs de la aplicación (archivo configurado en security_config.py)
+tail -f cortapis.log
+
+# Errores de Gunicorn (si aplicable)
+tail -f cortapis_error.log
+
+---
+
+12) DEPURACIÓN RÁPIDA Y TESTING
+
+# Ejecutar tests (si los añades)
+pytest -q
+
+# Probar endpoint básico (sin HTTPS en local si la app lo permite)
+curl -k -X POST http://localhost:5000/api/encrypt \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your_api_key" \
+  -d '{"text": "test@test.com"}'
+
+---
+
+13) NOTAS DE SEGURIDAD IMPORTANTES
+
+- Nunca incluyas la clave de encriptación en plantillas HTML ni en respuestas públicas.
+- Usa HTTPS en entornos de producción.
+- Habilita y rota API keys periódicamente.
+- Para producción, usar Redis o DB para persistir sesiones en vez de memoria.
+- Revisar SECURITY_AUDIT.md para checklist completo.
+
+---
+
+14) AYUDA Y REFERENCIAS
+
+- README_CORTAPIS.md: documentación de la app
+- SECURITY_AUDIT.md: auditoría y recomendaciones
+- DEPLOYMENT_GUIDE.md: guía de despliegue
+
+---
+
+Si quieres, puedo añadir este archivo como `CORTAPIS_TUTORIAL.txt` en la rama cortapis-security-app del repo por ti.
