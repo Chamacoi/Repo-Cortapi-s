@@ -197,5 +197,3 @@ curl -k -X POST http://localhost:5000/api/encrypt \
 - DEPLOYMENT_GUIDE.md: guía de despliegue
 
 ---
-
-Si quieres, puedo añadir este archivo como `CORTAPIS_TUTORIAL.txt` en la rama cortapis-security-app del repo por ti.
