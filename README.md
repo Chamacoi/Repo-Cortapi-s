@@ -1,3 +1,14 @@
+
+<!---
+Chamacoi/Chamacoi is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
+<div align="center">
+  <a href="https://primal.net/p/"beigemonkey27@primal.net target="_blank">
+    <img src="https://img.shields.io/badge/Zap%20Me%20on%20Primal-⚡-orange?style=for-the-badge&logo=bitcoin&logoColor=white&color=FF9900" alt="Zap Me on Primal">
+  </a>
+</div>
+
 # 🔐 Cortapis Security App
 
 **AI-Proof Text Encryption & Protection System**
