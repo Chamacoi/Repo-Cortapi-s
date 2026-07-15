@@ -1,49 +1,3 @@
-# 🔐 Cortapis Security App
-
-**AI-Proof Text Encryption & Protection System**
-
-Cortapis es un sistema de seguridad que protege contenido sensible de la indexación de IA mediante el uso de marcadores @ en formato Markdown, ofuscación de texto y encriptación.    
-Siempre puedes empezar por el tutorial "Tutorial Cortapi-s.txt" en esta misma Repo.
-
-## 🎯 Objetivo
-
-Proteger documentos sensibles durante su almacenamiento en la nube y servicios online, evitando que sean indexados por sistemas de IA y rastreadores web mientras se mantiene la capacidad de leerlos cuando sea necesario.
-
-## 🔐 Características Principales
-
-### 1. **Marcado de Contenido Sensible**
-```
-Original: contact@example.com
-Marcado:  [@@]contact@example.com
-```
-- Los símbolos @ se envuelven en pseudo-enlaces Markdown
-- Fácil de identificar en archivos de texto
-- Compatible con estándares de correo electrónico
-
-### 2. **Ofuscación para Búsquedas Alfabéticas**
-- Dispersión de @ marcadores a través del texto
-- El contenido aparece corrupto a los patrones de búsqueda
-- Disrumpe los algoritmos de indexación alfabética
-
-### 3. **Encriptación AES-256-GCM**
-- Encriptación fuerte basada en contraseña
-- Segura para almacenamiento en la nube
-- Descifrado solo con la contraseña correcta
-
-### 4. **Ventana de Llamada (Matrix-Style)**
-- Desencripta contenido cuando sea necesario
-- Muestra advertencia cuando el contenido está expuesto
-- Permite trabajar con el documento de forma segura
-
-## 🚀 Uso
-
-### Versión Python
-
-```bash
-python cortapis_app.py
-```
-
-**Ejemplo:**
 ```python
 from cortapis_app import CortapisSecurityApp
 
@@ -60,35 +14,32 @@ resultado = app.save_to_file(
 
 print(f"Encriptado: {resultado['encrypted']}")
 
-# Abrir ventana de llamada
+# Abrir ventana de llamada para leer el contenido de forma segura
 desencriptado = app.open_call_window('documento.txt')
 print(f"Desencriptado: {desencriptado}")
+
 ```
-
-### Versión Web/JavaScript
-
-Abrir `cortapis_web.html` en un navegador web moderno.
-
-**Características:**
-- Interfaz visual Matrix-style
-- Encriptación cliente-side (AES-256-GCM)
-- Exportación a Markdown
-- Descarga de archivos encriptados
-
-### Versión Node.js
-
+### 🌐 Versión Web (JavaScript)
+Abre el archivo cortapis_web.html directamente en cualquier navegador moderno.
+ * Interfaz visual inspirada en estética cyberpunk (Matrix-style).
+ * Encriptación local directamente en el lado del cliente (Client-Side) usando **Web Crypto API**. No se envían datos a ningún servidor.
+ * Exportación directa a Markdown y descarga de contenedores encriptados.
+### 🟢 Versión Node.js
+Integración nativa para entornos de servidor o scripts en JS.
 ```javascript
 const CortapisApp = require('./cortapis_app.js');
 
-const app = new CortapisApp();
-await app.generateEncryptionKey('password123');
+async function run() {
+    const app = new CortapisApp();
+    await app.generateEncryptionKey('password123');
 
-const result = await app.saveToFile('datos.txt', 'mi texto sensible');
-console.log('Encriptado:', result.encrypted);
+    const result = await app.saveToFile('datos.txt', 'mi texto sensible');
+    console.log('Encriptado:', result.encrypted);
+}
+run();
+
 ```
-
 ## 🔄 Flujo de Seguridad
-
 ```
 ┌─────────────────┐
 │  Texto Original │
@@ -112,7 +63,7 @@ console.log('Encriptado:', result.encrypted);
          ▼
 ┌─────────────────────────────────────┐
 │ 3. Encriptación AES-256-GCM         │
-│    Safe para almacenamiento cloud   │
+│    Seguridad para almacenamiento    │
 └────────┬────────────────────────────┘
          │
          ▼
@@ -121,120 +72,34 @@ console.log('Encriptado:', result.encrypted);
 │    Protegido de indexación de IA    │
 └────────┬────────────────────────────┘
          │
-         ▼ (cuando se necesita acceso)
+         ▼ (Acceso bajo demanda)
 ┌─────────────────────────────────────┐
 │ 5. Ventana de Llamada               │
 │    Desencriptar y revelar           │
-│    (temporalmente expuesto)         │
+│    (exposición temporal protegida)  │
 └─────────────────────────────────────┘
-```
 
+```
 ## 📋 Casos de Uso
-
-### 1. **Protección en Google Colab**
-```python
-# Subir datos sensibles sin temor a indexación
-from cortapis_app import CortapisSecurityApp
-app = CortapisSecurityApp()
-app.generate_encryption_key("contraseña")
-app.save_to_file('datos_investigacion.txt', contenido_sensible)
-```
-
-### 2. **Kaggle Notebooks**
-- Subir datasets encriptados
-- Colaborar sin comprometer privacidad
-- Desencriptar solo cuando sea necesario
-
-### 3. **Deepnote & Notebooks Online**
-- Mismo proceso que Colab
-- Compatible con todos los servicios de notebooks
-
-### 4. **Almacenamiento en GitHub**
-- Archivos encriptados seguros
-- Metadata protegida de raspadores
-- Reversible con contraseña
-
-## 🔐 Seguridad & Privacidad
-
-### ¿Por qué funciona?
-
-1. **@ Markers** rompem patrones de reconocimiento
-   - Los crawlers buscan patrones regulares
-   - Los marcadores @ disrumpen regex estándar
-   - Los modelos de IA no pueden indexar lo que no pueden parsear
-
-2. **Ofuscación** confunde búsquedas alfabéticas
-   - Texto aparece corrupto
-   - Métodos heurísticos fallan
-   - Requisitos de procesamiento aumentan exponencialmente
-
-3. **Encriptación** protege data en tránsito y almacenamiento
-   - AES-256-GCM es estándar militar
-   - Sin contraseña = inaccesible
-   - No hay backdoors
-
-### Limitaciones
-
-- Si la contraseña se compromete, el contenido se compromete
-- La ventana de llamada expone temporalmente el contenido
-- No protege contra ataques con acceso físico directo
-- Requiere cliente compatible para descifrar
-
-## 🛠️ Requisitos
-
-### Python
-```bash
-pip install cryptography
-```
-
-### Navegador Web
-- Navegador moderno con soporte para:
-  - Web Crypto API (Chrome 37+, Firefox 34+, Safari 11+, Edge 79+)
-  - Async/Await
-
-### Node.js
-```bash
-npm install crypto-js
-```
-
+ 1. **Protección en Google Colab / Jupyter Notebooks:** Permite subir y operar con datasets u hojas de configuración que contienen credenciales o datos sensibles sin miedo a que el entorno de ejecución indexe o filtre los datos en claro.
+ 2. **Kaggle & Deepnote:** Comparte y colabora en notebooks públicos utilizando datasets cifrados con Cortapis; los colaboradores autorizados solo necesitan la clave para desencriptar en memoria durante la ejecución.
+ 3. **Almacenamiento Seguro en GitHub:** Sube notas personales o documentación a tus repositorios evitando que los bots de rastreo de código recopilen tus patrones de texto.
+## 🛠️ API Endpoints
+Si utilizas Cortapis en modo servicio, la aplicación expone los siguientes endpoints:
+| Método | Endpoint | Descripción |
+|---|---|---|
+| POST | /api/encrypt | Encripta el contenido enviado en el cuerpo. |
+| POST | /api/decrypt | Desencripta y abre la ventana de llamada (*call window*). |
+| POST | /api/mark-sensitive | Aplica el enmascaramiento con marcadores [@@]. |
+| POST | /api/obfuscate | Ofusca cadenas de texto plano. |
+| GET | /api/sessions | Lista las sesiones activas en memoria. |
+| DELETE | /api/clear-session | Limpia la sesión actual y destruye las claves temporales. |
+## 🛡️ Limitaciones conocidas
+ * Si la clave/contraseña de cifrado se ve comprometida, la seguridad del archivo se pierde por completo.
+ * La *Ventana de Llamada* expone temporalmente la información en texto plano en la pantalla/memoria del sistema, por lo que no protege contra ataques de acceso físico o malware espía de pantalla (*screenloggers*).
 ## 📄 Licencia
-
-Cortapis - Sistema de Seguridad para Protección contra Indexación de IA
-Apache 2.0  http://www.apache.org/licenses/
-
-## API Endpoints
-POST- Encriptar contenido
-```/api/encrypt``` 
-POST- Desencriptar (abre call window) 
-```/api/decrypt``` 
-POST- Marcar tokens 
-```/api/mark-sensitive``` 
-POST- Ofuscar texto 
-```/api/obfuscate``` 
-GET- Listar sesiones 
-```/api/sessions``` 
-DELETE- Limpiar sesión
-```/api/clear-session``` 
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Por favor:
-1. Fork el repositorio
-2. Crea una rama para tu feature
-3. Commit tus cambios
-4. Push a la rama
-5. Abre un Pull Request
-
-## ⚠️ Disclaimer
-
-**USO RESPONSABLE:**
-- Este software está diseñado para privacidad legítima
-- NO debe usarse para ocultar actividades ilegales
-- Los usuarios son responsables de cumplir con leyes locales
-- La privacidad legítima ≠ ocultamiento de criminalidad
-
----
-
-**Desarrollado por:** Chamacoi  
-**Propósito:** Proteger privacidad personal y datos sensibles  
+Cortapis es software de código abierto distribuido bajo la licencia **Apache 2.0**. Consulta el archivo LICENSE para más detalles.
+### ⚠️ Disclaimer (Uso Responsable)
+Este software ha sido diseñado con fines legítimos de privacidad personal y protección de datos frente al scraping masivo. El autor no se hace responsable del mal uso de esta herramienta para actividades ilícitas. La privacidad legítima es un derecho; ocultar actividades delictivas no es el propósito de esta aplicación.
+**Desarrollado por:** Chamacoi
 **Lema:** *"Seguridad y privacidad es lo que importa"*
